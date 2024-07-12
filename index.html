@@ -1,7 +1,501 @@
 <!DOCTYPE html>
 <html>
-	<body>
-		<h1>Hello World!</h1>
-		<p>APGCC Test Website.</p>
-	</body>
+<head>
+  <meta charset="utf-8">
+<!--   <meta name="description"
+        content="Point-based Crowd Counting and Localization avoids traditional density map pitfalls by learning and predicting precise point locations, enabling more accurate counting and precise localization of individuals in a crowd.">
+  <meta name="keywords" content="Point-based, Crowd Counting, Localization, Auxiliary Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="./static/images/thumbnail.png"/>
+  <link rel="image_src" href="./static/images/thumbnail.png">
+  <link rel="icon"
+        type="image/x-icon"
+        href="./static/images/favicon.ico"/> -->
+
+  <meta name="description"
+        content="Point-based Crowd Counting and Localization avoids traditional density map pitfalls by learning and predicting precise point locations, enabling more accurate counting and precise localization of individuals in a crowd.">
+  <meta name="keywords" content="Point-based, Crowd Counting, Localization, Auxiliary Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="./apgcc_file/logo.png"/>
+  <link rel="image_src" href="./apgcc_file/logo.png">
+  <link rel="icon"
+        type="image/x-icon"
+        href="./apgcc_file/logo.png"/>
+
+  <title>APGCC: Improving Point-based Crowd Counting and Localization Based on Auxiliary Point Guidance.
+    </title>
+
+
+    <style>
+        .img-container {
+            text-align: center; /* Center the text and images */
+            margin-bottom: 20px; /* Adds some space between the image groups */
+        }
+
+        .image-with-caption {
+            display: inline-block; /* Allows multiple elements side by side */
+            margin: 10px; /* Adds some space around each image and caption */
+        }
+
+        .custom-gif {
+            width: 200px; /* Adjust based on your preference */
+            height: auto; /* Maintain aspect ratio */
+            margin-top: 10px; /* Space between caption and image */
+        }
+
+        .caption {
+            font-weight: bold; /* Optional: makes the caption text bold */
+        }
+    </style>
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EDF010G6PN"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EDF010G6PN');
+
+  </script>
+
+  <script type="module"
+          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="./static/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="./static/slick/slick-theme.css"/>
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+<!--       <div class="columns is-centered">
+        <div class="column is-4 has-text-centered">
+          <img src="static/images/logo.svg" alt="HyperNeRF"/>
+        </div>
+      </div> -->
+      <div class="container has-text-centered">
+        <h1 class="title is-1 publication-title">
+			APGCC: Improving Point-based Crowd Counting and Localization Based on Auxiliary Point Guidance.
+        </h1>
+        <div class="is-size-5 publication-authors">
+          <div class="author-block"><a href="https://sites.google.com/view/cihsiang/home">I-Hsiang Chen</a> <sup> 1</sup></div>
+          <div class="author-block"><a href="https://sites.google.com/view/weitingchen/home"> Wei-Ting Chen</a> <sup> 1</sup></div>
+          <div class="author-block"><a href="https://scholar.google.com/citations?user=oZanP1AAAAAJ&hl=zh-TW"> Yu-Wei Liu</a> <sup> 1</sup></div>
+          <div class="author-block"><a href="https://faculty.ucmerced.edu/mhyang/"> Ming-Hsuan Yang</a> <sup> 2,3</sup></div>
+          <div class="author-block"><a href="https://homepage.ntu.edu.tw/~sykuo"> Sy-Yen Kuo</a> <sup> 1</sup></div>
+
+        <div class="is-size-5 publication-authors">
+          <span class="author-block"><sup>1</sup>National Taiwan University,</span>
+          <span class="author-block"><sup>2</sup>The University of California Merced</span>
+          <span class="author-block"><sup>3</sup>Google Research</spa>
+        </div>
+
+        <!-- <div class="is-size-5 publication-authors">
+          <span class="author-block"> </sup>* Co-corresponding authors</span>
+        </div> -->
+        <div class="is-size-5 publication-authors">
+          <span class="author-block"> </sup>(ECCV 2024)</span>
+        </div>
+          
+        <div class="column has-text-centered">
+          <div class="publication-links">
+            <!-- PDF Link. -->
+            <span class="link-block">
+                <a href="https://arxiv.org/abs/2405.10589" 
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+            <span class="link-block">
+                <a href="https://arxiv.org/abs/2405.10589" 
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+            </span>
+            <span class="link-block">
+              <a href="https://github.com/AaronCIH/APGCC" 
+                 class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+                </a>
+            </span>
+            <!-- Dataset Link. -->
+            <span class="link-block">
+              <a href="https://github.com/AaronCIH/APGCC" 
+                 class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                    <i class="far fa-images"></i>
+                </span>
+                <span>Data</span>
+                </a>
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+<!--       <video id="teaser" autoplay controls muted loop playsinline height="100%">
+        <source src="./static/images/teaser.mp4"
+                type="video/mp4">
+      </video> -->
+<!--       <h2 class="subtitle has-text-centered"> -->
+<!--              <i>RobustSAM</i> outperfroms SAM in various degradations. -->
+<!--         <i>RobustSAM</i> handles topological variations by modeling a
+        family of shapes in a higher-dimensional space, thereby producing more realistic renderings
+        and more accurate geometric reconstructions. -->
+<!--       </h2> -->
+    </div>
+  </div>
+</section>
+
+<div class="img-container">
+    <div class="image-with-caption">
+        <div class="caption">Sample1</div>
+        <img class="custom-gif" src="./apgcc_file/teaser/teaser1.gif">
+    </div>
+    <div class="image-with-caption">
+        <div class="caption">Sample2</div>
+        <img class="custom-gif" src="./apgcc_file/teaser/teaser2.gif">
+    </div>
+    <div class="image-with-caption">
+        <div class="caption">Sample3</div>
+        <img class="custom-gif" src="./apgcc_file/teaser/teaser3.jpg">
+    </div>
+    <div class="image-with-caption">
+        <div class="caption">Sample4</div>
+        <img class="custom-gif" src="./apgcc_file/teaser/teaser4.jpg">
+    </div>
+  
+</div>
+
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-three-quarters">
+      <p>
+        <b>APGCC</b> </i> APGCC utilizes auxiliary point guidance to overcome the instability in training point-based crowd counting, 
+		achieving accurate counting and precise localization results.
+      </p>
+    </div>
+  </div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Responsive YouTube Video Embed</title>
+    <style>
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .video-container iframe {
+            width: 100%;
+            max-width: 720px; /* Optional: Set a max-width if you want */
+            height: auto;
+            aspect-ratio: 16 / 9;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/b_ltwfD9dLI?si=sm8o20QswEQI4W59" 
+			title="YouTube video player" 
+			frameborder="0" 
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+			referrerpolicy="strict-origin-when-cross-origin" 
+			allowfullscreen>
+		</iframe>
+    </div>
+</body>
+</html>
+
+
+<!-- <iframe width="560" height="315" 
+  src="https://www.youtube.com/embed/Awukqkbs6zM?si=vQEW91tN4j_iRJNs" 
+  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  referrerpolicy="strict-origin-when-cross-origin" 
+  allowfullscreen>
+</iframe> -->
+<!--       </div> -->
+
+
+<!--     </div>
+  </div>
+</section> -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Crowd counting and localization have become increasingly important in computer vision due to their wide-ranging applications. 
+			While point-based strategies have been widely used in crowd counting methods, they face a significant challenge, i.e., 
+			the lack of an effective learning strategy to guide the matching process. 
+			This deficiency leads to instability in matching point proposals to target points, adversely affecting overall performance. 
+			To address this issue, we introduce an effective approach to stabilize the proposal-target matching in point-based methods.
+          </p>
+          <p>
+            We propose Auxiliary Point Guidance (APG) to provide clear and effective guidance for proposal selection and optimization, 
+			addressing the core issue of matching uncertainty. 
+			Additionally, we develop Implicit Feature Interpolation (IFI) to enable adaptive feature extraction in diverse crowd scenarios, 
+			further enhancing the model's robustness and accuracy. Extensive experiments demonstrate the effectiveness of our approach, 
+			showing significant improvements in crowd counting and localization performance, particularly under challenging conditions.
+          </p> 
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+<!--     <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-2">Video</h2>
+        <div class="publication-video">
+          <iframe width="640" height="480" src="https://www.youtube.com/watch?v=bx0He5eE8fE"
+                  title="YouTube video player" frameborder="0"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<hr/>
+
+<section class="section">
+<!--   <div class="container is-max-desktop">
+    <h2 class="title is-3">Motivation</h2>
+    <div class="columns is-centered">
+      <!-- Level Sets. -->
+<!--       <div class="column is-half">
+        <div class="content">
+          <h3 class="title is-4">Level-Set Methods</h3>
+          <div class="level-set has-text-justified">
+            <p>
+              HyperNeRF represents changes in scene topology by providing a
+              NeRF with a higher-dimensional input. This is inspired by level-set methods.
+              Level-set methods provide a means to model a family of topologically-varying shapes as
+              slices of a higher dimensional auxiliary function. For example, these shapes
+            </p>
+            <div class="level-set-shapes">
+              <img src="./static/figures/level_set/0.svg"/>
+              <img src="./static/figures/level_set/1.svg"/>
+              <img src="./static/figures/level_set/2.svg"/>
+            </div>
+            <p>
+              can be represented as slices through this auxiliary shape
+            </p>
+            <model-viewer class="level-set-slices"
+                          src="./static/figures/level_set/level_set_3d.glb"
+                          alt="Slices through a 3D ambient surface."
+                          environment-image="neutral" auto-rotate camera-controls></model-viewer>
+            <p>
+              We can naturally model topologically varying shapes by just moving the
+              slicing plane along the higher dimensions. For example, this animation was generated
+              by
+              moving the slicing plane from top to bottom:
+            </p>
+            <div class="has-text-centered">
+              <video class="level-set-interpolate" controls autoplay loop playsinline muted height="100%">
+                <source src="./static/figures/level_set/interpolate2.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!--/ Level Sets. -->
+
+<!--       <div class="column is-half">
+        <div class="content has-text-justified">
+          <h3 class="is-4">Slicing Surfaces</h3>
+          <p>
+            Consider the follow shapes, which have different permutations of O xand X.
+          </p>
+          <div class="level-set-ox-shapes">
+            <img src="./static/figures/level_set/ox/0.svg"/>
+            <img src="./static/figures/level_set/ox/1.svg"/>
+            <img src="./static/figures/level_set/ox/2.svg"/>
+            <img src="./static/figures/level_set/ox/3.svg"/>
+          </div>
+          <p>
+            Traditionally, level-set methods use straight planes to slice the higher-dimensional
+            surface:
+          </p>
+          <model-viewer class="level-set-slices"
+                        src="./static/figures/level_set/ox/ox_ap.glb"
+                        alt="Slices through a 3D ambient surface."
+                        environment-image="neutral" auto-rotate camera-controls></model-viewer>
+          <p>
+            This means the higher-dimensional shape must contain copies of the same shape since
+            each permutation has to lie along a single straight slice through the z-axis. If we let
+            the slicing plane bend, it results in a much cleaner template:
+          </p>
+          <model-viewer class="level-set-slices"
+                        src="./static/figures/level_set/ox/ox_ds.glb"
+                        alt="Slices through a 3D ambient surface."
+                        environment-image="neutral" auto-rotate camera-controls></model-viewer>
+          <p>Please see the paper for details.</p>
+        </div>
+      </div>
+
+    </div>
+  </div> --> -->
+
+
+  <div class="container is-max-desktop">
+    <div class="content has-text-justified">
+      <h2 class="title is-3">Architecture of APGCC</h2>
+      <p>
+		The main contributions of APGCC 
+		are the <b>Auxiliary Point Guidance (APG)</b> and </b>Implicit Feature Interpolation (IFI)</b> modules, 
+		which introduce precise auxiliary point proposal to enhance the optimization process's stability during 
+		the network's matching phase.
+      <div class="has-text-centered">
+<!--         <embed src="./apgcc_file/Arch.pdf" width="800px" height="2100px" /> -->
+        <img style="width: 100%;" src="./apgcc_file/Arch.jpg"
+             alt="Architecture of APGCC."/>
+
+
+        <div class="content has-text-justified">
+          <p>
+		        APGCC stabilize and enhance the point-based methods by incorporating two essential modules. During training, 
+            APG designed to instruct the network on the precise selection and optimization of point proposals for matching with target points, 
+            ensuring accurate and informed decisions in the proposal selection and optimization process. 
+            To facilitate the implementation of APG, which necessitates feature extraction at arbitrary positions, 
+            we introduce the IFI that can access features from diverse locations within the network. 
+            By enhancing the robustness of the matching process, our approach significantly improves the precision and reliability of crowd analysis models.
+        </div>
+
+        
+      </div>
+      <h3 class="title is-4">Overview of the proposed Auxiliary Point Guidance framework</h3>
+<!--       <embed src="./apgcc_file/APG.pdf" width="800px" height="2100px" /> -->
+        <img style="width: 100%;" src="./apgcc_file/APG.jpg"
+             alt="Overview of the proposed Auxiliary Point Guidance framework."/>
+        <div class="content has-text-justified">
+          <p>
+            The Auxiliary Point Guidance (APG) framework involves the strategic designation of auxiliary positive (Apos) and negative (Aneg) points within the optimization framework, based on ground truth coordinates (x, y). The objective is to ensure that the confidence of auxiliary positive points is as close to one as possible and that their predicted offsets closely match the corresponding ground truth points. Conversely, the expected confidence and offset of auxiliary negative points should be as close to zero as possible, preventing negative points from using offsets to bring their proposal coordinates close to the ground truth. This approach effectively directs the optimization process by clearly distinguishing between potential positive and negative matches.
+        </div>
+      
+      </div>
+      <h3 class="title is-4">Overview of Implicit Feature Interpolation</h3>
+        <img style="width: 100%;" src="./apgcc_file/IFI.jpg"
+             alt="Overview of Implicit Feature Interpolation."/>
+        <div class="content has-text-justified">
+          <p>
+            Implicit Feature Interpolation is a technique that enhances the precision of point-based crowd counting and localization. This method leverages the underlying structure of the feature space to interpolate features smoothly and continuously, without explicitly defining interpolation points. By doing this, it allows for more accurate alignment of predicted points with ground truth coordinates, improving the model's ability to handle varying crowd densities and complex spatial relationships. This approach results in finer granularity and better spatial dependencies in feature representations, leading to improved accuracy and robustness in crowd counting and localization tasks.
+          </div>
+
+    </div>
+<!--     <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="hyper-space-wrapper has-text-centered">
+          <div class="hyper-space-axis">
+            <div class="hyper-space">
+              <div class="hyper-space-cursor"></div>
+            </div>
+          </div>
+          Ambient Dimension Coordinates
+          <br/>
+          <small>(Background shows log density of coordinate)</small>
+        </div>
+      </div>
+      <div class="column is-half has-text-centered">
+        <div class="hyper-grid-wrapper">
+          <div class="hyper-grid-rgb">
+            <img src="./static/figures/hyper_grid.jpg"/>
+          </div>
+        </div>
+        The hyper-space template rendered from a fixed viewpoint.
+      </div>
+    </div> -->
+  </div>
+</section>
+
+<hr/>
+
+<section class="section" id="BibTeX">
+  <div class="container content is-max-desktop">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{chen2024improving,
+      title={Improving Point-based Crowd Counting and Localization Based on Auxiliary Point Guidance},
+      author={Chen, I and Chen, Wei-Ting and Liu, Yu-Wei and Yang, Ming-Hsuan and Kuo, Sy-Yen and others},
+      journal={arXiv preprint arXiv:2405.10589},
+      year={2024}
+    }</code></pre>
+  </div>
+</section>
+
+<!-- <section class="section" id="acknowledgements">
+  <div class="container content is-max-desktop">
+    <h2 class="title">Acknowledgements</h2>
+    <p>Special thanks to <a href="https://homes.cs.washington.edu/~holynski/">Aleksander Hołyński</a>,
+      <a href="https://roxanneluo.github.io/">Xuan Luo</a>, and Haley Cho for their support and
+      help with collecting data. Thanks to <a href="https://zhengqili.github.io/">Zhengqi Li</a> and
+      <a href="http://www.oliverwang.info/">Oliver Wang</a> for their help with the NSFF experiments.</p>
+  </div>
+</section> -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="https://github.com/AaronCIH/APGCC">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/AaronCIH/APGCC" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script type="text/javascript" src="./static/slick/slick.min.js"></script>
+</body>
 </html>
