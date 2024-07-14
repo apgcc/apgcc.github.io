@@ -202,7 +202,6 @@
         <div class="caption">Instability Rate</div>
         <img class="custom-gif" src="./apgcc_file/teaser/teaser4.jpg">
     </div>
-  
 </div>
 
   <div class="columns is-centered has-text-centered">
@@ -310,85 +309,6 @@
 <hr/>
 
 <section class="section">
-<!--   <div class="container is-max-desktop">
-    <h2 class="title is-3">Motivation</h2>
-    <div class="columns is-centered">
-      <!-- Level Sets. -->
-<!--       <div class="column is-half">
-        <div class="content">
-          <h3 class="title is-4">Level-Set Methods</h3>
-          <div class="level-set has-text-justified">
-            <p>
-              HyperNeRF represents changes in scene topology by providing a
-              NeRF with a higher-dimensional input. This is inspired by level-set methods.
-              Level-set methods provide a means to model a family of topologically-varying shapes as
-              slices of a higher dimensional auxiliary function. For example, these shapes
-            </p>
-            <div class="level-set-shapes">
-              <img src="./static/figures/level_set/0.svg"/>
-              <img src="./static/figures/level_set/1.svg"/>
-              <img src="./static/figures/level_set/2.svg"/>
-            </div>
-            <p>
-              can be represented as slices through this auxiliary shape
-            </p>
-            <model-viewer class="level-set-slices"
-                          src="./static/figures/level_set/level_set_3d.glb"
-                          alt="Slices through a 3D ambient surface."
-                          environment-image="neutral" auto-rotate camera-controls></model-viewer>
-            <p>
-              We can naturally model topologically varying shapes by just moving the
-              slicing plane along the higher dimensions. For example, this animation was generated
-              by
-              moving the slicing plane from top to bottom:
-            </p>
-            <div class="has-text-centered">
-              <video class="level-set-interpolate" controls autoplay loop playsinline muted height="100%">
-                <source src="./static/figures/level_set/interpolate2.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <!--/ Level Sets. -->
-
-<!--       <div class="column is-half">
-        <div class="content has-text-justified">
-          <h3 class="is-4">Slicing Surfaces</h3>
-          <p>
-            Consider the follow shapes, which have different permutations of O xand X.
-          </p>
-          <div class="level-set-ox-shapes">
-            <img src="./static/figures/level_set/ox/0.svg"/>
-            <img src="./static/figures/level_set/ox/1.svg"/>
-            <img src="./static/figures/level_set/ox/2.svg"/>
-            <img src="./static/figures/level_set/ox/3.svg"/>
-          </div>
-          <p>
-            Traditionally, level-set methods use straight planes to slice the higher-dimensional
-            surface:
-          </p>
-          <model-viewer class="level-set-slices"
-                        src="./static/figures/level_set/ox/ox_ap.glb"
-                        alt="Slices through a 3D ambient surface."
-                        environment-image="neutral" auto-rotate camera-controls></model-viewer>
-          <p>
-            This means the higher-dimensional shape must contain copies of the same shape since
-            each permutation has to lie along a single straight slice through the z-axis. If we let
-            the slicing plane bend, it results in a much cleaner template:
-          </p>
-          <model-viewer class="level-set-slices"
-                        src="./static/figures/level_set/ox/ox_ds.glb"
-                        alt="Slices through a 3D ambient surface."
-                        environment-image="neutral" auto-rotate camera-controls></model-viewer>
-          <p>Please see the paper for details.</p>
-        </div>
-      </div>
-
-    </div>
-  </div> --> 
-
-
   <div class="container is-max-desktop">
     <div class="content has-text-justified">
       <h2 class="title is-3">Architecture of APGCC</h2>
@@ -399,7 +319,7 @@
 		the network's matching phase.
       <div class="has-text-centered">
 <!--         <embed src="./apgcc_file/Arch.pdf" width="800px" height="2100px" /> -->
-        <img style="width: 100%;" src="./apgcc_file/Arch.jpg"
+        <img style="width: 100%;" src="./apgcc_file/model/Arch.jpg"
              alt="Architecture of APGCC."/>
 
 
@@ -417,7 +337,7 @@
       </div>
       <h3 class="title is-4">Overview of the proposed Auxiliary Point Guidance framework</h3>
 <!--       <embed src="./apgcc_file/APG.pdf" width="800px" height="2100px" /> -->
-        <img style="width: 100%;" src="./apgcc_file/APG.jpg"
+        <img style="width: 100%;" src="./apgcc_file/model/APG.jpg"
              alt="Overview of the proposed Auxiliary Point Guidance framework."/>
         <div class="content has-text-justified">
           <p>
@@ -426,7 +346,7 @@
       
       </div>
       <h3 class="title is-4">Overview of Implicit Feature Interpolation</h3>
-        <img style="width: 100%;" src="./apgcc_file/IFI.jpg"
+        <img style="width: 100%;" src="./apgcc_file/model/IFI.jpg"
              alt="Overview of Implicit Feature Interpolation."/>
         <div class="content has-text-justified">
           <p>
@@ -434,33 +354,63 @@
           </div>
 
     </div>
-<!--     <div class="columns is-centered">
-      <div class="column is-half">
-        <div class="hyper-space-wrapper has-text-centered">
-          <div class="hyper-space-axis">
-            <div class="hyper-space">
-              <div class="hyper-space-cursor"></div>
-            </div>
-          </div>
-          Ambient Dimension Coordinates
-          <br/>
-          <small>(Background shows log density of coordinate)</small>
-        </div>
-      </div>
-      <div class="column is-half has-text-centered">
-        <div class="hyper-grid-wrapper">
-          <div class="hyper-grid-rgb">
-            <img src="./static/figures/hyper_grid.jpg"/>
-          </div>
-        </div>
-        The hyper-space template rendered from a fixed viewpoint.
-      </div>
-    </div> -->
   </div>
 </section>
 
 <hr/>
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content has-text-justified">
+      <h2 class="title is-3">Evaluation on Crowd Counting</h2>
 
+      <div class="img-container">
+        <div class="image-with-caption">
+            <div class="caption"></b>Evaluation of crowd counting on SHHA, SHHB, UCF-QNRF and JHU-Crowd datasets.</b></div>
+            <img style="width: 100%;" src="./apgcc_file/exp/count_all.png"
+                  alt="Architecture of APGCC."/>
+        </div>
+      </div>
+
+      <div class="img-container">
+        <div class="image-with-caption">
+            <div class="caption"></b>Evaluation of crowd counting on UCF_CC_50 datasets.</b></div>
+            <img style="width: 100%;" src="./apgcc_file/exp/count_cc.png"
+                  alt="Architecture of APGCC."/>
+        </div>
+        <div class="image-with-caption">
+          <div class="caption"></b>Evaluation of crowd counting on NWPU datasets.</b></div>
+          <img style="width: 100%;" src="./apgcc_file/exp/count_nwpu.png"
+                  alt="Architecture of APGCC."/>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr/>
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content has-text-justified">
+      <h2 class="title is-3">Evaluation on Crowd Localization</h2>
+      <div class="img-container">
+        <div class="image-with-caption">
+            <div class="caption"></b>Evaluation of crowd localization on NWPU and SHHA datasets.</b></div>
+            <img style="width: 100%;" src="./apgcc_file/exp/loc_nwpu.png"
+                  alt="Architecture of APGCC."/>
+        </div>
+        <div class="image-with-caption">
+          <div class="caption"></b>Evaluation of crowd localization on SHHA datasets.</b></div>
+          <img style="width: 100%;" src="./apgcc_file/exp/loc_shha.png"
+                  alt="Architecture of APGCC."/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<hr/>
 <section class="section" id="BibTeX">
   <div class="container content is-max-desktop">
     <h2 class="title">BibTeX</h2>
